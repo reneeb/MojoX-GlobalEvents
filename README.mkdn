@@ -1,0 +1,115 @@
+[![Build Status](https://travis-ci.org/reneeb/MojoX-GlobalEvents.svg?branch=master)](https://travis-ci.org/reneeb/MojoX-GlobalEvents)
+[![Kwalitee status](http://cpants.cpanauthors.org/dist/MojoX-GlobalEvents.png)](http://cpants.charsbar.org/dist/overview/MojoX-GlobalEvents)
+[![GitHub issues](https://img.shields.io/github/issues/reneeb/MojoX-GlobalEvents.svg)](https://github.com/reneeb/MojoX-GlobalEvents/issues)
+
+# NAME
+
+MojoX::GlobalEvents - A module to handle events
+
+# VERSION
+
+version 0.02
+
+# SYNOPSIS
+
+Initialize the module once:
+
+    use MojoX::GlobalEvents;
+
+    # load all event listeners located in "Name::Space"
+    MojoX::GlobalEvents->init( 'Name::Space' );
+
+In any Perl module:
+
+    use MojoX::GlobalEvents;
+    publish event_name => $param1, $param2;
+
+In your event handler modules;
+
+    use MojoX::GlobalEvents;
+    on event_name => sub {
+        print "received event event_name\n";
+    };
+
+or subscribe with a single object
+
+    package Cat;
+    use Mojo::Base '-base';
+    use MojoX::GlobalEvents;
+    
+    has eyes => 2;
+
+    package main;
+    
+    my $cat = Cat->new;
+    $cat->on( 'sunset' => sub {
+        print "even when it's dark I can see with my " . shift->eyes . " eyes\n";
+    });
+
+    publish 'sunset';
+
+# FUNCTIONS
+
+## init
+
+## on
+
+## publish
+
+
+
+# Development
+
+The distribution is contained in a Git repository, so simply clone the
+repository
+
+```
+$ git clone http://github.com/reneeb/MojoX-GlobalEvents.git
+```
+
+and change into the newly-created directory.
+
+```
+$ cd MojoX-GlobalEvents
+```
+
+The project uses [`Dist::Zilla`](https://metacpan.org/pod/Dist::Zilla) to
+build the distribution, hence this will need to be installed before
+continuing:
+
+```
+$ cpanm Dist::Zilla
+```
+
+To install the required prequisite packages, run the following set of
+commands:
+
+```
+$ dzil authordeps --missing | cpanm
+$ dzil listdeps --author --missing | cpanm
+```
+
+The distribution can be tested like so:
+
+```
+$ dzil test
+```
+
+To run the full set of tests (including author and release-process tests),
+add the `--author` and `--release` options:
+
+```
+$ dzil test --author --release
+```
+
+# AUTHOR
+
+Renee Baecker <reneeb@cpan.org>
+
+# COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2014 by Renee Baecker.
+
+This is free software, licensed under:
+
+    The Artistic License 2.0 (GPL Compatible)
