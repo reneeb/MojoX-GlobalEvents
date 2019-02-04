@@ -12,7 +12,7 @@ use Scalar::Util qw(blessed);
 use base 'Exporter';
 our @EXPORT = qw(on publish);
 
-our $VERSION = 0.04;
+our $VERSION = 0.05;
 
 my %subscriber;
 
