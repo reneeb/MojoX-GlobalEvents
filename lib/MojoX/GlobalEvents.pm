@@ -19,6 +19,9 @@ my %subscriber;
 sub init {
     my ($class, $namespace) = @_;
 
+    die 'ERROR: Missing namespace to setup global event.'
+        unless defined $namespace;
+
     my @spaces = split /::/, $namespace;
     my @dirs   = map{ File::Spec->catdir( $_, @spaces ) }@INC; 
     my @files  = File::Find::Rule->file->name( '*.pm' )->in( @dirs );
