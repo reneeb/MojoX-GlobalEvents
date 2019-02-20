@@ -34,6 +34,14 @@ MojoX::GlobalEvents->init('GlobalEvents::Test');
 }
 
 {
+    my $stderr = capture_stderr {
+        publish 'ge_test_stderr_tee';
+    };
+
+    is $stderr, 'GlobalEvents::Test::Stderr::Tee';
+}
+
+{
     my $msg = '';
     my $success = on 'ge_test_stderr' => sub { $msg = __PACKAGE__ };
     is $success, 1;
