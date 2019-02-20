@@ -7,6 +7,8 @@ use warnings;
 
 use File::Find::Rule;
 use File::Spec;
+use Mojo::File;
+use Mojo::Util qw(class_to_path);
 use Scalar::Util qw(blessed);
 
 use base 'Exporter';
@@ -27,7 +29,13 @@ sub init {
     my @files  = File::Find::Rule->file->name( '*.pm' )->in( @dirs );
 
     for my $file ( @files ) {
-        require $file;
+        my @parts = @{ Mojo::File->new( $file )->to_array };
+        my $module = join '::', @parts;
+        $module =~ s{.*?\Q$namespace\E}{$namespace};
+        $module =~ s{\.pm\z}{};
+
+        my $path = class_to_path $module;
+        require $path;
     }
 }
 
